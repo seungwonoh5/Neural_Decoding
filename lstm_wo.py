@@ -16,285 +16,240 @@ from sklearn.model_selection import StratifiedKFold
 import time
 
 # load the dataset
+
 cell = 1
 mouseNumber = 4
-day = 5
-isInjection = False
-windowSize = 10
+windowSize = 5
+#day = 1
 
-cellMouse = str(cell) + "00" + str(mouseNumber) 
-if isInjection:
-    inj = 4
-else:
+for day in range(1,6):
+
+    cellMouse = str(cell) + "00" + str(mouseNumber) 
+   
     inj = 1
-datasetName = os.path.join('../data',cellMouse,'TRACES_'+ cellMouse +'_'+ str(day) +'_' +str(inj) +'.csv')
-labelName = os.path.join('../data',cellMouse,'BEHAVIOR_'+ cellMouse +'_'+ str(day) +'_' +str(inj)+'.csv')
-inj +=1 
-datasetName1 = os.path.join('../data',cellMouse,'TRACES_'+ cellMouse +'_'+ str(day) +'_' +str(inj) +'.csv')
-labelName1 = os.path.join('../data',cellMouse,'BEHAVIOR_'+ cellMouse +'_'+ str(day) +'_' +str(inj)+'.csv')
+    datasetName = os.path.join('../data',cellMouse,'TRACES_'+ cellMouse +'_'+ str(day) +'_' +str(inj) +'.csv')
+    labelName = os.path.join('../data',cellMouse,'BEHAVIOR_'+ cellMouse +'_'+ str(day) +'_' +str(inj)+'.csv')
+    inj +=1 
+    datasetName1 = os.path.join('../data',cellMouse,'TRACES_'+ cellMouse +'_'+ str(day) +'_' +str(inj) +'.csv')
+    labelName1 = os.path.join('../data',cellMouse,'BEHAVIOR_'+ cellMouse +'_'+ str(day) +'_' +str(inj)+'.csv')
 
-inj += 1
-testName = os.path.join('../data',cellMouse,'TRACES_'+ cellMouse +'_'+ str(day) +'_' +str(inj) +'.csv')
-testLabel = os.path.join('../data',cellMouse,'BEHAVIOR_'+ cellMouse +'_'+ str(day) +'_' +str(inj)+'.csv')
+    inj += 1
+    testName = os.path.join('../data',cellMouse,'TRACES_'+ cellMouse +'_'+ str(day) +'_' +str(inj) +'.csv')
+    testLabel = os.path.join('../data',cellMouse,'BEHAVIOR_'+ cellMouse +'_'+ str(day) +'_' +str(inj)+'.csv')
 
-dataset = loadtxt(datasetName, delimiter=',')
-label = loadtxt(labelName, delimiter=',')
-dataset1 = loadtxt(datasetName1, delimiter=',')
-label1 = loadtxt(labelName1, delimiter=',')
-testDataset = loadtxt(testName, delimiter=',')
-testLabel = loadtxt(testLabel, delimiter=',')
+    dataset = loadtxt(datasetName, delimiter=',')
+    label = loadtxt(labelName, delimiter=',')
+    dataset1 = loadtxt(datasetName1, delimiter=',')
+    label1 = loadtxt(labelName1, delimiter=',')
+    testDataset = loadtxt(testName, delimiter=',')
+    testLabel = loadtxt(testLabel, delimiter=',')
 
+    max_trainval = [] 
+    min_trainval = [] 
+    mean_trainval = [] 
+    #dataset = dataset[1:]
+    #dataset1 = dataset1[1:]
+    #testDataset = testDataset[1:]
+    Nfeature = dataset.shape[0]
 
-max_trainval = [] 
-min_trainval = [] 
-mean_trainval = [] 
-#dataset = dataset[1:]
-#dataset1 = dataset1[1:]
-#testDataset = testDataset[1:]
-Nfeature = dataset.shape[0]
-
-for i in range(Nfeature):
-    max_trainval.append(np.amax(dataset[i]))
-    min_trainval.append(np.amin(dataset[i]))
-    mean_trainval.append(np.average(dataset[i]))
+    for i in range(Nfeature):
+        max_trainval.append(np.amax(dataset[i]))
+        min_trainval.append(np.amin(dataset[i]))
+        mean_trainval.append(np.average(dataset[i]))
     
-#print(max_trainval,min_trainval ,mean_trainval)
+    #print(max_trainval,min_trainval ,mean_trainval)
 
-X = np.transpose(dataset[1:])
-Y = label[:,2]
+    X = np.transpose(dataset[1:])
+    Y = label[:,2]
 
-X2 = np.transpose(dataset1[1:])
-Y2 = label1[:,2]
+    X2 = np.transpose(dataset1[1:])
+    Y2 = label1[:,2]
 
-testX = np.transpose(testDataset[1:])
-testY = testLabel[:,2]
+    testX = np.transpose(testDataset[1:])
+    testY = testLabel[:,2]
 
-#for i in range(3000):
-#    X[i][0] = 0
-#    X2[i][0] = 1
-#    testX[i][0] = 2
+    #for i in range(3000):
+    #    X[i][0] = 0
+    #    X2[i][0] = 1
+    #    testX[i][0] = 2
 
-"""for j in range(140):
-    for i in range(3000):
-        #print(min_trainval[j])
-        X[i][j] =(X[i][j]- min_trainval[j]) /(max_trainval[j]-min_trainval[j])
-        X2[i][j] =(X2[i][j]-min_trainval[j]) /(max_trainval[j]-min_trainval[j])
-        testX[i][j] =(testX[i][j]-min_trainval[j]) /(max_trainval[j]-min_trainval[j])"""
-        
+    # encode class values as integers
+    encoder = LabelEncoder()
+    encoder.fit(Y)
+    encoded_Y = encoder.transform(Y)
+    encoder.fit(Y2)
+    encoded_Y2 = encoder.transform(Y2)
+    encoder.fit(testY)
+    encoded_testY = encoder.transform(testY) 
 
-#print(np.amax(X))
-"""for j in range(140):
-    for i in range(3000):
-        if X[i][j] <0.5:
-            X[i][j] = -0
-        if X2[i][j] <0.5:
-            X2[i][j] = -0
-        if testX[i][j] <0.5:
-            testX[i][j] = -0"""
+    #pad_const = (sum(X[:][0])+sum(X2[:][0]))/(2*len(X[:][0]))
+    #pad_const = 0
+    model = Sequential()
+    model.add(keras.layers.LSTM(100, input_shape=(windowSize, X.shape[1]),return_sequences=False))
+    model.add(keras.layers.Dense(1, activation='sigmoid'))
+    model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
+    #model.summary()
 
+    paddedX = X#np.pad(X, ((windowSize-1,0),(0, 0)), constant_values=pad_const)
+    paddedX2 = X2 # np.pad(X2, ((windowSize-1,0),(0, 0)), constant_values=pad_const)
 
-# encode class values as integers
-encoder = LabelEncoder()
-encoder.fit(Y)
-encoded_Y = encoder.transform(Y)
-encoder.fit(Y2)
-encoded_Y2 = encoder.transform(Y2)
-encoder.fit(testY)
-encoded_testY = encoder.transform(testY) 
-
-#pad_const = (sum(X[:][0])+sum(X2[:][0]))/(2*len(X[:][0]))
-#pad_const = 0
-model = Sequential()
-model.add(keras.layers.LSTM(100, input_shape=(windowSize, X.shape[1]),return_sequences=False))
-model.add(keras.layers.Dense(1, activation='sigmoid'))
-model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
-#model.summary()
-
-paddedX = X#np.pad(X, ((windowSize-1,0),(0, 0)), constant_values=pad_const)
-paddedX2 = X2 # np.pad(X2, ((windowSize-1,0),(0, 0)), constant_values=pad_const)
-
-for ep in range(30):
-    for i in range(windowSize,3000):
-        model.fit(paddedX[i-windowSize:i][:].reshape(1,windowSize,X.shape[1]),encoded_Y[i].reshape(1,1),epochs=1, batch_size=1,verbose=0) 
+    for ep in range(30):
+        for i in range(windowSize-1,3000):
+            model.fit(paddedX[i-windowSize+1:i+1][:].reshape(1,windowSize,X.shape[1]),encoded_Y[i].reshape(1,1),epochs=1, batch_size=1,verbose=0) 
  
-        model.fit(paddedX2[i-windowSize:i][:].reshape(1,windowSize,X2.shape[1]),encoded_Y2[i].reshape(1,1),epochs=1, batch_size=1,verbose=0) 
+            model.fit(paddedX2[i-windowSize+1:i+1][:].reshape(1,windowSize,X2.shape[1]),encoded_Y2[i].reshape(1,1),epochs=1, batch_size=1,verbose=0) 
 
 
-#Test#
-results=[]
+    #Test#
+    results=[]
 
-paddedtestX = testX #np.pad(testX, ((windowSize-1,0),(0, 0)), constant_values=pad_const)
-start_time = time.time()
-for i in range(windowSize,3000):
-    results.extend(model.predict(paddedtestX[i-windowSize:i][:].reshape(1,windowSize,testX.shape[1]))[0]) 
-print("--- %s mseconds ---" % (time.time() - start_time))
+    paddedtestX = testX #np.pad(testX, ((windowSize-1,0),(0, 0)), constant_values=pad_const)
+    start_time = time.time()
+    for i in range(windowSize-1,3000):
+        results.extend(model.predict(paddedtestX[i-windowSize+1:i+1][:].reshape(1,windowSize,testX.shape[1]))[0]) 
+    print("--- %s mseconds ---" % (time.time() - start_time))
 
-np.reshape(results, (3000-windowSize))
+    np.reshape(results, (3000-windowSize+1))
     
-accuracy = 0 
-fn = 0
-fp = 0
-tp = 0 
+    accuracy = 0 
+    fn = 0
+    fp = 0
+    tp = 0 
 
-for i in range(3000-windowSize):
-    if results[i]> 0.5:
-        results[i]= 1 
-    else:
-        results[i] = 0 
-    if results[i]==testY[i+windowSize] and results[i]==1:
-        accuracy +=1
-        tp +=1
-    elif results[i]==testY[i+windowSize] and results[i]==0:
-        accuracy +=1
-    elif results[i]!=testY[i+windowSize] and results[i]==1:
-        fp += 1
-    else:
-        fn += 1
+    for i in range(3000-windowSize+1):
+        if results[i]> 0.5:
+            results[i]= 1 
+        else:
+            results[i] = 0 
+        if results[i]==testY[i+windowSize-1] and results[i]==1:
+            accuracy +=1
+            tp +=1
+        elif results[i]==testY[i+windowSize-1] and results[i]==0:
+            accuracy +=1
+        elif results[i]!=testY[i+windowSize-1] and results[i]==1:
+            fp += 1
+        else:
+            fn += 1
 
-print("balance:",sum(results), sum(testY))
-print(datasetName)
-print(datasetName1)
-print(testName)
-print(accuracy*100/(3000-windowSize))
-print("f1_score:" ,accuracy/(accuracy+(fn+fp)/2) )
-
-# load the dataset
-
-isInjection = True
-windowSize = 10
-
-cellMouse = str(cell) + "00" + str(mouseNumber) 
-if isInjection:
+    #print("balance:",sum(results), sum(testY))
+    print(datasetName)
+    print(datasetName1)
+    print(testName)
+    print(accuracy*100/(3000-windowSize+1))
+    print("f1_score:" ,tp/(tp+(fn+fp)/2) )
+    print(tp/(tp+(fn+fp)/2)," ", accuracy*100/(3000-windowSize+1), " ",(time.time() - start_time) )
+    # load the dataset
+    
     inj = 4
-else:
-    inj = 1
-datasetName = os.path.join('../data',cellMouse,'TRACES_'+ cellMouse +'_'+ str(day) +'_' +str(inj) +'.csv')
-labelName = os.path.join('../data',cellMouse,'BEHAVIOR_'+ cellMouse +'_'+ str(day) +'_' +str(inj)+'.csv')
-inj +=1 
-datasetName1 = os.path.join('../data',cellMouse,'TRACES_'+ cellMouse +'_'+ str(day) +'_' +str(inj) +'.csv')
-labelName1 = os.path.join('../data',cellMouse,'BEHAVIOR_'+ cellMouse +'_'+ str(day) +'_' +str(inj)+'.csv')
-
-inj += 1
-testName = os.path.join('../data',cellMouse,'TRACES_'+ cellMouse +'_'+ str(day) +'_' +str(inj) +'.csv')
-testLabel = os.path.join('../data',cellMouse,'BEHAVIOR_'+ cellMouse +'_'+ str(day) +'_' +str(inj)+'.csv')
-
-dataset = loadtxt(datasetName, delimiter=',')
-label = loadtxt(labelName, delimiter=',')
-dataset1 = loadtxt(datasetName1, delimiter=',')
-label1 = loadtxt(labelName1, delimiter=',')
-testDataset = loadtxt(testName, delimiter=',')
-testLabel = loadtxt(testLabel, delimiter=',')
-
-
-max_trainval = [] 
-min_trainval = [] 
-mean_trainval = [] 
-#dataset = dataset[1:]
-#dataset1 = dataset1[1:]
-#testDataset = testDataset[1:]
-Nfeature = dataset.shape[0]
-
-for i in range(Nfeature):
-    max_trainval.append(np.amax(dataset[i]))
-    min_trainval.append(np.amin(dataset[i]))
-    mean_trainval.append(np.average(dataset[i]))
     
-#print(max_trainval,min_trainval ,mean_trainval)
+    datasetName = os.path.join('../data',cellMouse,'TRACES_'+ cellMouse +'_'+ str(day) +'_' +str(inj) +'.csv')
+    labelName = os.path.join('../data',cellMouse,'BEHAVIOR_'+ cellMouse +'_'+ str(day) +'_' +str(inj)+'.csv')
+    inj +=1 
+    datasetName1 = os.path.join('../data',cellMouse,'TRACES_'+ cellMouse +'_'+ str(day) +'_' +str(inj) +'.csv')
+    labelName1 = os.path.join('../data',cellMouse,'BEHAVIOR_'+ cellMouse +'_'+ str(day) +'_' +str(inj)+'.csv')
 
-X = np.transpose(dataset[1:])
-Y = label[:,2]
+    inj += 1
+    testName = os.path.join('../data',cellMouse,'TRACES_'+ cellMouse +'_'+ str(day) +'_' +str(inj) +'.csv')
+    testLabel = os.path.join('../data',cellMouse,'BEHAVIOR_'+ cellMouse +'_'+ str(day) +'_' +str(inj)+'.csv')
 
-X2 = np.transpose(dataset1[1:])
-Y2 = label1[:,2]
+    dataset = loadtxt(datasetName, delimiter=',')
+    label = loadtxt(labelName, delimiter=',')
+    dataset1 = loadtxt(datasetName1, delimiter=',')
+    label1 = loadtxt(labelName1, delimiter=',')
+    testDataset = loadtxt(testName, delimiter=',')
+    testLabel = loadtxt(testLabel, delimiter=',')
 
-testX = np.transpose(testDataset[1:])
-testY = testLabel[:,2]
+    max_trainval = [] 
+    min_trainval = [] 
+    mean_trainval = [] 
+    #dataset = dataset[1:]
+    #dataset1 = dataset1[1:]
+    #testDataset = testDataset[1:]
+    Nfeature = dataset.shape[0]
 
-#for i in range(3000):
-#    X[i][0] = 0
-#    X2[i][0] = 1
-#    testX[i][0] = 2
+    for i in range(Nfeature):
+        max_trainval.append(np.amax(dataset[i]))
+        min_trainval.append(np.amin(dataset[i]))
+        mean_trainval.append(np.average(dataset[i]))
 
-"""for j in range(140):
-    for i in range(3000):
-        #print(min_trainval[j])
-        X[i][j] =(X[i][j]- min_trainval[j]) /(max_trainval[j]-min_trainval[j])
-        X2[i][j] =(X2[i][j]-min_trainval[j]) /(max_trainval[j]-min_trainval[j])
-        testX[i][j] =(testX[i][j]-min_trainval[j]) /(max_trainval[j]-min_trainval[j])"""
-        
+    X = np.transpose(dataset[1:])
+    Y = label[:,2]
 
-#print(np.amax(X))
-"""for j in range(140):
-    for i in range(3000):
-        if X[i][j] <0.5:
-            X[i][j] = -0
-        if X2[i][j] <0.5:
-            X2[i][j] = -0
-        if testX[i][j] <0.5:
-            testX[i][j] = -0"""
+    X2 = np.transpose(dataset1[1:])
+    Y2 = label1[:,2]
 
+    testX = np.transpose(testDataset[1:])
+    testY = testLabel[:,2]
 
-# encode class values as integers
-encoder = LabelEncoder()
-encoder.fit(Y)
-encoded_Y = encoder.transform(Y)
-encoder.fit(Y2)
-encoded_Y2 = encoder.transform(Y2)
-encoder.fit(testY)
-encoded_testY = encoder.transform(testY) 
+    #for i in range(3000):
+    #    X[i][0] = 0
+    #    X2[i][0] = 1
+    #    testX[i][0] = 2
 
-#pad_const = (sum(X[:][0])+sum(X2[:][0]))/(2*len(X[:][0]))
-#pad_const = 0
-model = Sequential()
-model.add(keras.layers.LSTM(100, input_shape=(windowSize, X.shape[1]),return_sequences=False))
-model.add(keras.layers.Dense(1, activation='sigmoid'))
-model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
-#model.summary()
+    # encode class values as integers
+    encoder = LabelEncoder()
+    encoder.fit(Y)
+    encoded_Y = encoder.transform(Y)
+    encoder.fit(Y2)
+    encoded_Y2 = encoder.transform(Y2)
+    encoder.fit(testY)
+    encoded_testY = encoder.transform(testY) 
 
-paddedX = X#np.pad(X, ((windowSize-1,0),(0, 0)), constant_values=pad_const)
-paddedX2 = X2 # np.pad(X2, ((windowSize-1,0),(0, 0)), constant_values=pad_const)
+    #pad_const = (sum(X[:][0])+sum(X2[:][0]))/(2*len(X[:][0]))
+    #pad_const = 0
+    model = Sequential()
+    model.add(keras.layers.LSTM(100, input_shape=(windowSize, X.shape[1]),return_sequences=False))
+    model.add(keras.layers.Dense(1, activation='sigmoid'))
+    model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
+    #model.summary()
 
-for ep in range(30):
-    for i in range(windowSize,3000):
-        model.fit(paddedX[i-windowSize:i][:].reshape(1,windowSize,X.shape[1]),encoded_Y[i].reshape(1,1),epochs=1, batch_size=1,verbose=0) 
+    paddedX = X#np.pad(X, ((windowSize-1,0),(0, 0)), constant_values=pad_const)
+    paddedX2 = X2 # np.pad(X2, ((windowSize-1,0),(0, 0)), constant_values=pad_const)
+
+    for ep in range(30):
+        for i in range(windowSize-1,3000):
+            model.fit(paddedX[i-windowSize+1:i+1][:].reshape(1,windowSize,X.shape[1]),encoded_Y[i].reshape(1,1),epochs=1, batch_size=1,verbose=0) 
  
-        model.fit(paddedX2[i-windowSize:i][:].reshape(1,windowSize,X2.shape[1]),encoded_Y2[i].reshape(1,1),epochs=1, batch_size=1,verbose=0) 
+            model.fit(paddedX2[i-windowSize+1:i+1][:].reshape(1,windowSize,X2.shape[1]),encoded_Y2[i].reshape(1,1),epochs=1, batch_size=1,verbose=0) 
 
 
-#Test#
-results=[]
+    #Test#
+    results=[]
 
-paddedtestX = testX #np.pad(testX, ((windowSize-1,0),(0, 0)), constant_values=pad_const)
-start_time = time.time()
-for i in range(windowSize,3000):
-    results.extend(model.predict(paddedtestX[i-windowSize:i][:].reshape(1,windowSize,testX.shape[1]))[0]) 
-print("--- %s mseconds ---" % (time.time() - start_time))
+    paddedtestX = testX #np.pad(testX, ((windowSize-1,0),(0, 0)), constant_values=pad_const)
+    start_time = time.time()
+    for i in range(windowSize-1,3000):
+        results.extend(model.predict(paddedtestX[i-windowSize+1:i+1][:].reshape(1,windowSize,testX.shape[1]))[0]) 
+    print("--- %s mseconds ---" % (time.time() - start_time))
 
-np.reshape(results, (3000-windowSize))
+    np.reshape(results, (3000-windowSize+1))
     
-accuracy = 0 
-fn = 0
-fp = 0
-tp = 0 
+    accuracy = 0 
+    fn = 0
+    fp = 0
+    tp = 0 
 
-for i in range(3000-windowSize):
-    if results[i]> 0.5:
-        results[i]= 1 
-    else:
-        results[i] = 0 
-    if results[i]==testY[i+windowSize] and results[i]==1:
-        accuracy +=1
-        tp +=1
-    elif results[i]==testY[i+windowSize] and results[i]==0:
-        accuracy +=1
-    elif results[i]!=testY[i+windowSize] and results[i]==1:
-        fp += 1
-    else:
-        fn += 1
+    for i in range(3000-windowSize+1):
+        if results[i]> 0.5:
+            results[i]= 1 
+        else:
+            results[i] = 0 
+        if results[i]==testY[i+windowSize-1] and results[i]==1:
+            accuracy +=1
+            tp +=1
+        elif results[i]==testY[i+windowSize-1] and results[i]==0:
+            accuracy +=1
+        elif results[i]!=testY[i+windowSize-1] and results[i]==1:
+            fp += 1
+        else:
+            fn += 1
 
-print("balance:",sum(results), sum(testY))
-print(datasetName)
-print(datasetName1)
-print(testName)
-print(accuracy*100/(3000-windowSize))
-print("f1_score:" ,accuracy/(accuracy+(fn+fp)/2) )
+    #print("balance:",sum(results), sum(testY))
+    print(datasetName)
+    print(datasetName1)
+    print(testName)
+    print(accuracy*100/(3000-windowSize+1))
+    print("f1_score:" ,tp/(tp+(fn+fp)/2) )
+    print(tp/(tp+(fn+fp)/2)," ", accuracy*100/(3000-windowSize+1), " ",(time.time() - start_time) )
+    # load the dataset
+
