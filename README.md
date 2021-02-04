@@ -1,5 +1,7 @@
 # Real-Time Neural Decoder: based on Online Transfer Learning
-This project is to propose a novel learning method for training real-time neural decoder models that continuously adapts to the data stream of neural activities extracted from mice to exploit knowledge from previous datasets in the stream. We show that after deploying the trainined model constantly updating the model to the future data streams could improve and maintain the model's performance. 
+This project proposes a novel learning method for training real-time neural decoders based on machine learning models that detect fine movements from neural activity signals extracted from animals' brains and continuously adapt to the data stream by exploiting knowledge from previous datasets in the stream. We show that after deploying the trainined model constantly updating the model to the future data streams could improve and maintain the model's performance. 
+
+The dataset I have used for this experiment is private, so it cannot be shared. In order to use your own custom dataset, you should probably modify the file data.py for using your own.
 
 ## What's New
 v1.5 (Oct 12)
@@ -45,11 +47,18 @@ This code requires the following:
 run ```pip3 install -r requirements.txt``` to install all the dependencies.
 
 ## Usage
-To run the experiment, run ```CUDA_VISIBLE_DEVICES=0 python3 train_cifar.py [x].```
-Here [x] is a system argument of the starting task id. begins with 0.
+To run the experiment, run ```python3 train.py.```
+
+## What's Included
+5 files with 4 scripts and 1 notebook file.
+* data.py:this file provides all the data loading and preprocessing functions. (need to modify to use it for your own dataset)
+* models.py: this file provides all of the decoder models in Keras. 
+* utils.py: this file provides all the visualization and misc functions.
+* train.py: this file serves as the main script for the experiment that trains both the decoder and the baseline model and compare the results.
+* plot_results.ipynb: an example file that trains and plots the experimental results for visualization on Google Colab.
 
 ## Results
-
+We perform extensive experiments on six datasets in a class-incremental setting, leading to significant improvements over the state of the art methods (e.g.,a 21.3% boost on CIFAR100 with 10 incremental tasks). Specifically, on large-scale datasets that generally prove difficult cases for incremental learning, our approach delivers absolute gains as high as 19.1% and 7.4% on ImageNetand MS-Celeb datasets, respectively.
 
 ## Contact
 Author: Seungwon Oh - [aspiringtechsavvy@gmail.com](aspiringtechsavvy@gmail.com) or [soh1@terpmail.umd.edu](soh1@terpmail.umd.edu).a
