@@ -1,4 +1,4 @@
-# Real-Time Neural Decoder: based on Online Transfer Learning
+# Real-Time Neural Decoder: Online Transfer Learning
 This project proposes a novel learning method for training real-time neural decoders based on machine learning models that detect fine movements from neural activity signals extracted from animals' brains and continuously adapt to the data stream by exploiting knowledge from previous datasets in the stream. We show that after deploying the trainined model constantly updating the model to the future data streams could improve and maintain the model's performance. 
 
 The dataset I have used for this experiment is private, so it cannot be shared. In order to use your own custom dataset, you should probably modify the file data.py for using your own.
