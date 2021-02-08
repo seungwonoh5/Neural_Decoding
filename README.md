@@ -34,6 +34,17 @@ v1.0 (~Aug 5)
 * load and stack multiple datasets in 2D (function *load_data*)
 * train and evaluate models using Keras (function *train*)
 
+## Getting Started
+Clone this repository by running ```git clone https://github.com/seungwonoh5/Online_Learning_Neural_Decoding```.
+
+## What's Included
+Inside the repo, there are mainly 4 scripts and 1 notebook file.
+* data.py:this file provides all the data loading and preprocessing functions. (need to modify to use it for your own dataset)
+* models.py: this file provides all of the decoder models in Keras. 
+* utils.py: this file provides all the visualization and misc functions.
+* train.py: this file serves as the main script for the experiment that trains both the decoder and the baseline model and compare the results.
+* plot_results.ipynb: an example file that trains and plots the experimental results for visualization on Google Colab.
+
 ## Dependencies
 This code requires the following:
 * numpy==1.19.5
@@ -46,14 +57,6 @@ run ```pip3 install -r requirements.txt``` to install all the dependencies.
 
 ## Usage
 To run the experiment, run ```python3 train.py.```
-
-## What's Included
-5 files with 4 scripts and 1 notebook file.
-* data.py:this file provides all the data loading and preprocessing functions. (need to modify to use it for your own dataset)
-* models.py: this file provides all of the decoder models in Keras. 
-* utils.py: this file provides all the visualization and misc functions.
-* train.py: this file serves as the main script for the experiment that trains both the decoder and the baseline model and compare the results.
-* plot_results.ipynb: an example file that trains and plots the experimental results for visualization on Google Colab.
 
 ## Results
 We perform extensive experiments on six datasets sequentially streaming and we show that an online setting continuously updating the model as every data block is processed leads to significant improvements over various state of the art models compared to the batch learning method that the model is fixed after training on the initial dataset and deploying for prediction. Specifically, on large-scale datasets that generally prove difficult cases for incremental learning, our approach delivers absolute gains as high as 19.1% and 7.4% on datasets, respectively.
