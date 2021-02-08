@@ -1,8 +1,6 @@
 # Real-Time Neural Decoder with Online Learning
 This project proposes a novel learning method for training real-time neural decoders based on machine learning models that detect fine movements from neural activity signals extracted from animals' brains and continuously adapt to the data stream by exploiting knowledge from previous datasets in the stream. We show that after deploying the trainined model constantly updating the model to the future data streams could improve and maintain the model's performance. 
 
-The dataset I have used for this experiment is private, so it cannot be shared. In order to use your own custom dataset, you should probably modify the file data.py for using your own.
-
 ## What's New
 v1.5 (Oct 12)
 * add features for the dummy neuron: average of all neuron values in that frame
@@ -58,7 +56,7 @@ To run the experiment, run ```python3 train.py.```
 * plot_results.ipynb: an example file that trains and plots the experimental results for visualization on Google Colab.
 
 ## Results
-We perform extensive experiments on six datasets in a class-incremental setting, leading to significant improvements over the state of the art methods (e.g.,a 21.3% boost on CIFAR100 with 10 incremental tasks). Specifically, on large-scale datasets that generally prove difficult cases for incremental learning, our approach delivers absolute gains as high as 19.1% and 7.4% on ImageNetand MS-Celeb datasets, respectively.
+We perform extensive experiments on six datasets sequentially streaming and we show that an online setting continuously updating the model as every data block is processed leads to significant improvements over various state of the art models compared to the batch learning method that the model is fixed after training on the initial dataset and deploying for prediction. Specifically, on large-scale datasets that generally prove difficult cases for incremental learning, our approach delivers absolute gains as high as 19.1% and 7.4% on datasets, respectively.
 
 ## Contact
 Author: Seungwon Oh - [aspiringtechsavvy@gmail.com](aspiringtechsavvy@gmail.com) or [soh1@terpmail.umd.edu](soh1@terpmail.umd.edu).a
