@@ -1,4 +1,4 @@
-# Real-Time Neural Decoding with Online Learning
+# Adaptive Real-Time Neural Decoder with Online Learning
 This project proposes a learning method for real-time neural decoders based on machine learning that detect fine movements from neural activity signals extracted from animals' brains and continuously adapt to the data stream in an online setting. We show that constantly updating the model to future data streams could improve and maintain the trained model's performance after deployment.
 
 ## What's New
