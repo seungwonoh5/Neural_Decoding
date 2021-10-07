@@ -1,5 +1,5 @@
 # Adaptive Real-Time Neural Decoder with Online Learning
-This project proposes a learning method for real-time neural decoders based on machine learning that detect fine movements from neural activity signals extracted from animals' brains and continuously adapt to the data stream in an online setting. We show that constantly updating the model to future data streams could improve and maintain the trained model's performance after deployment.
+This project experiments different learning methods for LSTM-based real-time neural decoder that detect fine movements from neural activity signals extracted from animals' brains and continuously adapt to the data stream in an online setting. We show that a combination of transfer learning that develop source model from other datasets and online learning that constantly updates the model to future data streams improve and better maintain the trained model's performance after deployment compared to batch learning.
 
 ## What's New
 v1.5 (Oct 12)
@@ -48,26 +48,24 @@ To run our program, it requires the following:
 All packages will be installed automatically when running ```pip3 install -r requirements.txt``` to install all the dependencies.
 
 ## Getting Started
-We have included jupyter notebooks and scripts that provide detailed examples of our experiments.
-You can either run the notebook ```train_eval.ipynb``` which goes through the complete process of the experiment and outputs visualizations of the experiment,
-or separately run those tasks, training the model on a dataset, evaluating on streams of new datasets by loading the trained weights and visualizing the results.
+We have included jupyter notebooks that provide detailed examples of our experiments.
+You can either run the notebook ```train_eval.ipynb``` which goes through the complete process of the experiment and outputs visualizations of the experiment or
+run train.py that imports other script modules in the repo to goes through the whole experiment. You can use individual scripts to reuse part of the program that you need.
 ```
 python train.py
-python evaluate.py
 ```
 
 ## What's Included
-Inside the repo, there are mainly 5 scripts and 1 notebook file.
+Inside the repo, there are 4 scripts and 1 notebook file.
 * data.py:this file provides all the data loading and preprocessing functions. (need to modify to use it for your own dataset)
-* models.py: this file provides all of the decoder models in Keras. 
+* models.py: this file provides all the decoder models in Keras. 
 * utils.py: this file provides all the visualization and misc functions.
 * train.py: this file serves as the main script for the experiment that trains both the decoder and the baseline model and compare the results.
-* evaluate.py: this file provides the sequential performance of the trained models on a stream of new datasets in sequential order.
 * train_eval.ipynb: an example file that trains and plots the experimental results for visualization on Google Colab.
 
 ## Results
 We perform extensive experiments on six datasets sequentially streaming and we show that an online setting continuously updating the model as every data block is processed leads to significant improvements over various state of the art models compared to the batch learning method that the model is fixed after training on the initial dataset and deploying for prediction. Specifically, on large-scale datasets that generally prove difficult cases for incremental learning, our approach delivers absolute gains as high as 19.1% and 7.4% on datasets, respectively.
 
 ## Contact
-Author: Seungwon Oh - [aspiringtechsavvy@gmail.com](aspiringtechsavvy@gmail.com) or [soh1@terpmail.umd.edu](soh1@terpmail.umd.edu).a
+Author: Seungwon Oh - [aspiringtechsavvy@gmail.com](aspiringtechsavvy@gmail.com) or [soh1@terpmail.umd.edu](soh1@terpmail.umd.edu).
 To ask questions or report issues, please open an issue on the issues tracker. Discussions, suggestions and questions are welcome!
