@@ -47,14 +47,6 @@ To run our program, it requires the following:
 
 All packages will be installed automatically when running ```pip3 install -r requirements.txt``` to install all the dependencies.
 
-## Getting Started
-We have included jupyter notebooks that provide detailed examples of our experiments.
-You can either run the notebook ```train_eval.ipynb``` which goes through the complete process of the experiment and outputs visualizations of the experiment or
-run train.py that imports other script modules in the repo to goes through the whole experiment. You can use individual scripts to reuse part of the program that you need.
-```
-python train.py
-```
-
 ## What's Included
 Inside the repo, there are 4 scripts and 1 notebook file.
 * data.py:this file provides all the data loading and preprocessing functions. (need to modify to use it for your own dataset)
@@ -62,6 +54,14 @@ Inside the repo, there are 4 scripts and 1 notebook file.
 * utils.py: this file provides all the visualization and misc functions.
 * main.py: this file serves as the main script for the experiment that trains both the decoder and the baseline model and compare the results.
 * main.ipynb: an example file that trains and plots the experimental results for visualization on Google Colab.
+
+## Getting Started
+We have included jupyter notebooks that provide detailed examples of our experiments.
+You can either run the notebook ```main.ipynb``` which goes through the complete process of the experiment and outputs visualizations of the experiment or
+run main script that imports other script modules in the repo to goes through the whole experiment. You can use individual scripts to reuse part of the program that you need.
+```
+python main.py
+```
 
 ## Results
 We perform extensive experiments on six datasets sequentially streaming and we show that an online setting continuously updating the model as every data block is processed leads to significant improvements over various state of the art models compared to the batch learning method that the model is fixed after training on the initial dataset and deploying for prediction. Specifically, on large-scale datasets that generally prove difficult cases for incremental learning, our approach delivers absolute gains as high as 19.1% and 7.4% on datasets, respectively.
