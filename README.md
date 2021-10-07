@@ -49,7 +49,7 @@ All packages will be installed automatically when running ```pip3 install -r req
 
 ## What's Included
 Inside the repo, there are 4 scripts and 1 notebook file.
-* data.py:this file provides all the data loading and preprocessing functions. (need to modify to use it for your own dataset)
+* data.py: this file provides all the data loading and preprocessing functions. (need to modify to use it for your own dataset)
 * models.py: this file provides all the decoder models in Keras. 
 * utils.py: this file provides all the visualization and misc functions.
 * main.py: this file serves as the main script for the experiment that trains both the decoder and the baseline model and compare the results.
