@@ -1,7 +1,7 @@
 """
 run.py
 """
-from nerual_decoding.utils import plot_performance
+from neural_decoding.utils import plot_performance
 from neural_decoding.data import NeuralData
 from neural_decoding.models import Batch_Model, Online_Model
 

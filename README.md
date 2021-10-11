@@ -31,7 +31,8 @@ python main.py
 ```
 
 ## Results
-We perform extensive experiments on six datasets sequentially streaming and we show that an online setting continuously updating the model as every data block is processed leads to significant improvements over various state of the art models compared to the batch learning method that the model is fixed after training on the initial dataset and deploying for prediction. Specifically, on large-scale datasets that generally prove difficult cases for incremental learning, our approach delivers absolute gains as high as 19.1% and 7.4% on datasets, respectively.
+We perform extensive experiments on four datasets sequentially streaming and we show that an online setting continuously updating the model as every data block is processed leads to significant improvements over batch learning that the model is fixed after trained on an initial dataset and deployed for prediction. We show that performance of batch learning degrades after a few datasets where as online learning shows stable performance and even improves on future datasets.
+![Alt text](result.png?raw=true "Title")
 
 ## Contact
 Author: Seungwon Oh - [wonoh90@gmail.com](aspiringtechsavvy@gmail.com).
