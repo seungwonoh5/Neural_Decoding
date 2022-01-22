@@ -23,12 +23,8 @@ Inside the repo, there are 4 scripts and 1 notebook file.
 * main.ipynb: an example file that trains and plots the experimental results for visualization on Google Colab.
 
 ## Getting Started
-We have included jupyter notebooks that provide detailed examples of our experiments.
-You can either run the notebook ```main.ipynb``` which goes through the complete process of the experiment and outputs visualizations of the experiment or
-run main script that imports other script modules in the repo to goes through the whole experiment. You can use individual scripts to reuse part of the program that you need.
-```
-python run.py
-```
+You can either run the notebook ```main.ipynb``` which was run on Google Colab, or the main script(run.py) that imports other modules in the repo to go through the whole experiment. Individual modules in the neural decoding package can be reused at your needs.
+```python run.py```
 
 ## Results
 We perform extensive experiments on four datasets sequentially streaming and we show that an online setting continuously updating the model as every data block is processed leads to significant improvements over batch learning that the model is fixed after trained on an initial dataset and deployed for prediction. We show that performance of batch learning degrades after a few datasets where as online learning shows stable performance and even improves on future datasets.
