@@ -1,5 +1,5 @@
 # Adaptive Real-Time Neural Decoder with Online Learning
-This project experiments different learning methods for LSTM-based real-time neural decoder that detect fine movements from neural activity signals extracted from animals' brains and continuously adapt to the data stream in an online setting. We show that a combination of transfer learning that develops source model from other datasets and online learning that constantly updates the model to future data streams improve and better maintain the trained model's performance after deployment compared to batch learning.
+This project experiments different learning methods for LSTM-based real-time neural decoder that detects fine movements from neural activity signals extracted from animals' brains and continuously adapt to the data stream in an online setting. We show that a combination of transfer learning that develops source model from other datasets and online learning that constantly updates the model to future data streams improve and better maintain the trained model's performance after deployment compared to batch learning.
 
 ## Installation
 Clone this repository by running ```git clone https://github.com/seungwonoh5/Online_Learning_Neural_Decoding```.
