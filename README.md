@@ -1,5 +1,5 @@
 # Adaptive Real-Time Neural Decoder with Online Learning
-This project experiments different learning methods for LSTM-based real-time neural decoder that predicts fine movements from neural activity signals extracted from animals' brains and continuously adapts to the data stream in an online setting. Compared to batch learning, We show that a combination of transfer learning that develops source model from other datasets and online learning that constantly updates the model to future data streams improves and better maintains model performance after deployment.
+This project experiments different learning methods for LSTM-based adaptive real-time neural decoder that predicts fine movements from neural activity signals extracted from animals' brains and continuously adapts to the data stream in an online setting. Compared to batch learning, We show that a combination of transfer learning that develops source model from other datasets and online learning that constantly updates the model to future data streams improves and better maintains model performance after deployment.
 
 ## Installation
 Clone this repository by running ```git clone https://github.com/seungwonoh5/Online_Learning_Neural_Decoding```.
@@ -12,7 +12,7 @@ To run our program, it requires the following:
 * tensorflow==2.4.1
 * scikit-learn==0.22.2
 
-All packages will be installed automatically when running ```pip3 install -r requirements.txt``` to install all the dependencies.
+All packages will automatically be installed after running ```pip3 install -r requirements.txt```.
 
 ## What's Included
 Inside the repo, there are 4 scripts and 1 notebook file.
